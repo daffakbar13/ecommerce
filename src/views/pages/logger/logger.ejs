@@ -1,0 +1,239 @@
+<div class="d-flex flex-column flex-root">
+	<!--begin::Page-->
+	<div class="page d-flex flex-row flex-column-fluid">
+		<!--begin::Aside-->
+		<%- include('../../components/aside.ejs') %>
+			<!--end::Aside-->
+			<!--begin::Wrapper-->
+			<div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+				<!--begin::Header-->
+				<%- include('../../components/header.ejs') %>
+					<!--end::Header-->
+					<!--begin::Content-->
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+						<!--begin::Toolbar-->
+						<div class="toolbar" id="kt_toolbar">
+							<!--begin::Container-->
+							<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+								<!--begin::Page title-->
+								<div data-kt-swapper="true" data-kt-swapper-mode="prepend"
+									data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
+									class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+									<!--begin::Title-->
+									<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">App Log
+									</h1>
+									<!--end::Title-->
+									<!--begin::Separator-->
+									<span class="h-20px border-gray-300 border-start mx-4"></span>
+									<!--end::Separator-->
+									<!--begin::Breadcrumb-->
+									<ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+										<!--begin::Item-->
+										<li class="breadcrumb-item text-muted">
+											<a href="/" class="text-muted text-hover-primary">Home</a>
+										</li>
+										<!--end::Item-->
+										<!--begin::Item-->
+										<li class="breadcrumb-item">
+											<span class="bullet bg-gray-300 w-5px h-2px"></span>
+										</li>
+										<!--end::Item-->
+										<!--begin::Item-->
+										<li class="breadcrumb-item text-dark">App Log</li>
+										<!--end::Item-->
+									</ul>
+									<!--end::Breadcrumb-->
+								</div>
+								<!--end::Page title-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Toolbar-->
+						<!--begin::Post-->
+						<div class="post d-flex flex-column-fluid" id="kt_post">
+							<!--begin::Container-->
+							<div id="kt_content_container" class="container-xxl">
+								<!--begin::Products-->
+								<div class="card card-flush">
+									<!--begin::Card header-->
+									<div class="card-header align-items-center py-5 gap-2 gap-md-5">
+										<!--begin::Card title-->
+										<div class="card-title">
+										</div>
+										<!--end::Card title-->
+										<!--begin::Card toolbar-->
+										<div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+											<div class="w-100 mw-150px">
+												<!--begin::Select2-->
+												<select class="form-select form-select-solid" data-control="select2"
+													data-hide-search="true" data-placeholder="Status"
+													data-kt-ecommerce-order-filter="status">
+													<option></option>
+													<option value="all">All</option>
+													<option value="Get">Get</option>
+													<option value="Post">Post</option>
+													<option value="Put">Put</option>
+													<option value="Delete">Delete</option>
+												</select>
+												<!--end::Select2-->
+											</div>
+										</div>
+										<!--end::Card toolbar-->
+									</div>
+									<!--end::Card header-->
+									<!--begin::Card body-->
+									<div class="card-body pt-0">
+										<!--begin::Table-->
+										<table class="table align-middle table-row-dashed fs-6 gy-5"
+											id="kt_ecommerce_sales_table">
+											<!--begin::Table head-->
+											<thead>
+												<!--begin::Table row-->
+												<tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+													<th class="w-10px pe-2">
+														<div
+															class="form-check form-check-sm form-check-custom form-check-solid me-3">
+															<input class="form-check-input" type="hidden"
+																data-kt-check="true"
+																data-kt-check-target="#kt_ecommerce_sales_table .form-check-input"
+																value="1" />
+															#
+														</div>
+													</th>
+													<th class="min-w-70px">User</th>
+													<th class="min-w-70px">role</th>
+													<th class="min-w-70px">Url</th>
+													<th class="text-end min-w-50px">method</th>
+													<th class="text-end min-w-50px">date</th>
+													<th class="text-end min-w-50px">time</th>
+												</tr>
+												<!--end::Table row-->
+											</thead>
+											<!--end::Table head-->
+											<!--begin::Table body-->
+											<tbody class="fw-bold text-gray-600">
+												<% data.logger.forEach((e,i)=> {i++ %>
+													<!--begin::Table row-->
+													<tr>
+														<!--begin::Checkbox-->
+														<td>
+															<div
+																class="form-check form-check-sm form-check-custom form-check-solid">
+																<%= i %>
+															</div>
+														</td>
+														<!--end::Checkbox-->
+														<!--begin::Order ID=-->
+														<td data-kt-ecommerce-order-filter="order_id">
+															<div
+																class="text-gray-800 text-hover-primary fs-5 fw-bolder">
+																<%= e.user %>
+															</div>
+														</td>
+														<!--end::Order ID=-->
+														<!--begin::Order ID=-->
+														<td data-kt-ecommerce-order-filter="order_id">
+															<div
+																class="text-gray-800 text-hover-primary fs-5 fw-bolder">
+																<%= e.role %>
+															</div>
+														</td>
+														<!--end::Order ID=-->
+														<!--begin::Customer=-->
+														<td>
+															<div class="d-flex align-items-center">
+																<%= e.url %>
+															</div>
+														</td>
+														<!--end::Customer=-->
+														<!--begin::Status=-->
+														<td class="text-end pe-0" data-order="Completed">
+															<!--begin::Badges-->
+															<div
+																class="badge badge-light-<%= (e.method === 'GET') ? 'warning' : 'primary' %>">
+																<%= e.method %>
+															</div>
+															<!--end::Badges-->
+														</td>
+														<!--end::Status=-->
+														<!--begin::Total=-->
+														<td class="text-end pe-0">
+															<span class="fw-bolder">
+																<%=
+																	`${e.date.getFullYear()}-${e.date.getMonth()+1}-${e.date.getDate()}`%>
+															</span>
+														</td>
+														<!--end::Total=-->
+														<!--begin::Date Added=-->
+														<td class="text-end" data-order="2022-03-23">
+															<span class="fw-bolder">
+																<%= `${e.date.getHours()}:${e.date.getMinutes()}:${e.date.getSeconds()}`
+																	%>
+															</span>
+														</td>
+														<!--end::Date Added=-->
+													</tr>
+													<!--end::Table row-->
+													<% }) %>
+											</tbody>
+											<!--end::Table body-->
+										</table>
+										<!--end::Table-->
+									</div>
+									<!--end::Card body-->
+								</div>
+								<!--end::Products-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Post-->
+					</div>
+					<!--end::Content-->
+					<!--begin::Footer-->
+					<div class="footer py-4 d-flex flex-lg-column" id="kt_footer">
+						<!--begin::Container-->
+						<div
+							class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between">
+							<!--begin::Copyright-->
+							<div class="text-dark order-2 order-md-1">
+								<span class="text-muted fw-bold me-1">2022©</span>
+								<a href="https://keenthemes.com" target="_blank"
+									class="text-gray-800 text-hover-primary">Keenthemes</a>
+							</div>
+							<!--end::Copyright-->
+							<!--begin::Menu-->
+							<ul class="menu menu-gray-600 menu-hover-primary fw-bold order-1">
+								<li class="menu-item">
+									<a href="https://keenthemes.com" target="_blank" class="menu-link px-2">About</a>
+								</li>
+								<li class="menu-item">
+									<a href="https://devs.keenthemes.com" target="_blank"
+										class="menu-link px-2">Support</a>
+								</li>
+								<li class="menu-item">
+									<a href="https://1.envato.market/EA4JP" target="_blank"
+										class="menu-link px-2">Purchase</a>
+								</li>
+							</ul>
+							<!--end::Menu-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Footer-->
+			</div>
+			<!--end::Wrapper-->
+	</div>
+	<!--end::Page-->
+</div>
+
+<%- contentFor('style') %>
+	<link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+	<%- contentFor('script') %>
+		<script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
+		<script src="assets/js/custom/apps/ecommerce/sales/listing.js"></script>
+		<script src="assets/js/widgets.bundle.js"></script>
+		<script src="assets/js/custom/widgets.js"></script>
+		<script src="assets/js/custom/apps/chat/chat.js"></script>
+		<script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
+		<script src="assets/js/custom/utilities/modals/create-app.js"></script>
+		<script src="assets/js/custom/utilities/modals/users-search.js"></script>

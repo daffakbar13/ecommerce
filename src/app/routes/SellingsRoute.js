@@ -4,6 +4,7 @@ const express = require('express')
 const Sellings = require('../controller/SellingsController')
 // Body parser
 var bodyParser = require('body-parser');
+const { checkNotAuthenticated, roleAdmin, roleUser } = require('../controller/AuthController');
 // Router
 const router = express.Router()
 
@@ -24,8 +25,11 @@ router.use(express.urlencoded({ extended: true }));
 
 
 // Customer lists
-router.get('/sellings', Sellings.Home)
-router.get('/sellings/detail', Sellings.Detail)
+router.get('/sellings', checkNotAuthenticated, roleAdmin, Sellings.Home)
+router.post('/sellings', Sellings.Home)
+router.post('/sellings/detail', Sellings.Detail)
+router.get('/invoice/:any', checkNotAuthenticated, roleUser, Sellings.Invoice)
+router.post('/sellings/status', Sellings.SetOrderStatus)
 
 
 

@@ -4,6 +4,7 @@ const express = require('express')
 const Customers = require('../controller/CustomersController')
 // Body parser
 var bodyParser = require('body-parser');
+const { checkNotAuthenticated, roleAdmin } = require('../controller/AuthController');
 // Router
 const router = express.Router()
 
@@ -22,10 +23,9 @@ router.use(express.urlencoded({ extended: true }));
 
 
 
-
 // Customer lists
-router.get('/customers', Customers.Home)
-router.get('/customers/detail', Customers.Detail)
+router.get('/customers', checkNotAuthenticated, roleAdmin, Customers.Home)
+router.get('/customers/detail', checkNotAuthenticated, roleAdmin, Customers.Detail)
 
 
 

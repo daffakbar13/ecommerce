@@ -1,20 +1,45 @@
 const fs = require('fs')
 const t_products = require("../models/tabel_products")
 const m_brands = require("../models/master_brands")
+const m_status = require("../models/master_status-products")
+const { defineRole, defineUser } = require('./AuthController')
 const folder = 'pages/products'
-const folder_img = './public/uploads/img/product'
+
+const products = async () => (await t_products.findAll()).rows
+const product = async (e) => (await t_products.findOne(e)).rows[0]
+const brands = async () => (await m_brands.findAll()).rows
+const status = async () => (await m_status.findAll()).rows
 
 exports.Home =
     async (req, res, next) => {
+        let prod = await products()
+        let stat = req.body.status
+        if (stat !== undefined && stat !== 'All') {
+            prod = (await products()).filter(e => e.status === stat)
+        }
+        if (defineRole(req.user) <= 1) {
+            prod = (await products()).filter(e => e.status === 'Published')
+        }
         data = {
-            products: (await t_products.findAll()).rows
+            products: prod,
+            status: await status(),
+            role: defineRole(req.user),
+            user: defineUser(req.user),
+            auth: req.isAuthenticated(),
+            stat,
+            url: req.url
         }
         res.render(`${folder}/product-list`)
     }
 exports.AddProduct =
     async (req, res) => {
         data = {
-            brands: (await m_brands.findAll()).rows
+            brands: await brands(),
+            status: await status(),
+            auth: req.isAuthenticated(),
+            user: defineUser(req.user),
+            role: defineRole(req.user),
+            url: req.url
         }
         res.render(`${folder}/add-product`)
     }
@@ -22,10 +47,14 @@ exports.
     EditProduct =
     async (req, res) => {
         data = {
-            product: (await t_products.findOne(req.body.id)).rows[0],
-            brands: (await m_brands.findAll()).rows
+            product: await product(req.body.id),
+            brands: await brands(),
+            status: await status(),
+            auth: req.isAuthenticated(),
+            user: defineUser(req.user),
+            role: defineRole(req.user),
+            url: req.url
         }
-        console.log(data.product);
         res.render(`${folder}/edit-product`)
     }
 exports.Save =
@@ -44,7 +73,6 @@ exports.Save =
             avatar,
             req.body.brand
         )
-        console.log(req.body);
         res.redirect('/products')
     }
 exports.Update =
@@ -55,11 +83,6 @@ exports.Update =
             avatar = oldAvatar
         } else {
             avatar = req.files[0].filename
-            data = (await t_products.findOne(req.body.id)).rows[0]
-            if (data.image !== 'default.png') {
-                var filePath = `${folder_img}/${data.image}`;
-                fs.unlinkSync(`${filePath}`);
-            }
         }
         await t_products.updateOne(
             req.body.id,
@@ -74,13 +97,20 @@ exports.Update =
     }
 exports.Delete =
     async (req, res) => {
-        data = (await t_products.findOne(req.body.id)).rows[0]
-        if (data.image !== 'default.png') {
-            var filePath = `${folder_img}/${data.image}`;
-            fs.unlinkSync(`${filePath}`);
-        }
         await t_products.deleteOne(
             req.body.id,
         )
         res.redirect('/products')
     }
+exports.checkStock = async (req, res, next) => {
+    const allData = (await t_products.findAll()).rows
+    allData.forEach(async (e) => {
+        if (e.quantity === 0) {
+            t_products.updateStatus(
+                e.id,
+                'Inactive'
+            )
+        }
+    });
+    next()
+}

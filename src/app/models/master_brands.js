@@ -1,3 +1,4 @@
+const { decodeBase64 } = require("bcryptjs");
 const { pool } = require("../database/db.config");
 const table = 'master_brands'
 
@@ -6,7 +7,7 @@ exports.findAll = async () => {
     SELECT * 
     FROM 
     ${table}
-    ORDER BY id
+    ORDER BY id ASC
     `)
 
     return query

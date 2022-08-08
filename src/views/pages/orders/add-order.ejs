@@ -1,0 +1,552 @@
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <!--begin::Aside-->
+        <%- include('../../components/aside.ejs') %>
+            <!--end::Aside-->
+            <!--begin::Wrapper-->
+            <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+                <!--begin::Header-->
+                <%- include('../../components/header.ejs') %>
+                    <!--end::Header-->
+                    <!--begin::Content-->
+                    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                        <!--begin::Toolbar-->
+                        <div class="toolbar" id="kt_toolbar">
+                            <!--begin::Container-->
+                            <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                                <!--begin::Page title-->
+                                <div data-kt-swapper="true" data-kt-swapper-mode="prepend"
+                                    data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
+                                    class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                                    <!--begin::Title-->
+                                    <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Add Order</h1>
+                                    <!--end::Title-->
+                                    <!--begin::Separator-->
+                                    <span class="h-20px border-gray-300 border-start mx-4"></span>
+                                    <!--end::Separator-->
+                                    <!--begin::Breadcrumb-->
+                                    <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                                        <!--begin::Item-->
+                                        <li class="breadcrumb-item text-muted">
+                                            <a href="../../demo1/dist/index.html"
+                                                class="text-muted text-hover-primary">Home</a>
+                                        </li>
+                                        <!--end::Item-->
+                                        <!--begin::Item-->
+                                        <li class="breadcrumb-item">
+                                            <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                                        </li>
+                                        <!--end::Item-->
+                                        <!--begin::Item-->
+                                        <li class="breadcrumb-item text-muted">eCommerce</li>
+                                        <!--end::Item-->
+                                        <!--begin::Item-->
+                                        <li class="breadcrumb-item">
+                                            <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                                        </li>
+                                        <!--end::Item-->
+                                        <!--begin::Item-->
+                                        <li class="breadcrumb-item text-muted">Sales</li>
+                                        <!--end::Item-->
+                                        <!--begin::Item-->
+                                        <li class="breadcrumb-item">
+                                            <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                                        </li>
+                                        <!--end::Item-->
+                                        <!--begin::Item-->
+                                        <li class="breadcrumb-item text-dark">Add Order</li>
+                                        <!--end::Item-->
+                                    </ul>
+                                    <!--end::Breadcrumb-->
+                                </div>
+                                <!--end::Page title-->
+                            </div>
+                            <!--end::Container-->
+                        </div>
+                        <!--end::Toolbar-->
+                        <!--begin::Post-->
+                        <div class="post d-flex flex-column-fluid" id="kt_post">
+                            <!--begin::Container-->
+                            <div id="kt_content_container" class="container-xxl">
+                                <!--begin::Form-->
+                                <form id="kt_ecommerce_edit_order_form" class="form d-flex flex-column flex-lg-row"
+                                    action="/orders/save" method="post">
+                                    <input type="hidden" name="inputTotal" id="inputTotal">
+                                    <!--begin::Aside column-->
+                                    <div class="w-100 flex-lg-row-auto w-lg-300px mb-7 me-7 me-lg-10">
+                                        <!--begin::Order details-->
+                                        <div class="card card-flush py-4">
+                                            <!--begin::Card header-->
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    <h2>Order Details</h2>
+                                                </div>
+                                            </div>
+                                            <!--end::Card header-->
+                                            <!--begin::Card body-->
+                                            <div class="card-body pt-0">
+                                                <div class="d-flex flex-column gap-10">
+                                                    <!--begin::Input group-->
+                                                    <div class="fv-row">
+                                                        <!--begin::Label-->
+                                                        <label class="form-label">Payment Method</label>
+                                                        <!--end::Label-->
+                                                        <!--begin::Select2-->
+                                                        <select class="form-select mb-2" data-control="select2"
+                                                            data-hide-search="true" data-placeholder="Select an option"
+                                                            name="payment_method" id="kt_ecommerce_edit_order_payment">
+                                                            <option></option>
+                                                            <% data.payment.forEach(e=> { %>
+                                                                <option value="<%= e.payment_method %>">
+                                                                    <%= e.payment_method %>
+                                                                </option>
+                                                                <% }) %>
+                                                        </select>
+                                                        <!--end::Select2-->
+                                                    </div>
+                                                    <!--end::Input group-->
+                                                </div>
+                                            </div>
+                                            <!--end::Card header-->
+                                        </div>
+                                        <!--end::Order details-->
+                                    </div>
+                                    <!--end::Aside column-->
+                                    <!--begin::Main column-->
+                                    <div class="d-flex flex-column flex-lg-row-fluid gap-7 gap-lg-10">
+                                        <!--begin::Order details-->
+                                        <div class="card card-flush py-4">
+                                            <!--begin::Card header-->
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    <h2>Select Products</h2>
+                                                </div>
+                                            </div>
+                                            <!--end::Card header-->
+                                            <!--begin::Card body-->
+                                            <div class="card-body pt-0">
+                                                <div class="d-flex flex-column gap-10">
+                                                    <!--begin::Input group-->
+                                                    <div>
+                                                        <!--begin::Label-->
+                                                        <label class="form-label">Add products to this order</label>
+                                                        <!--end::Label-->
+                                                        <!--begin::Selected products-->
+                                                        <div class="row row-cols-1 row-cols-xl-3 row-cols-md-2 border border-dashed rounded pt-3 pb-1 px-2 mb-5 mh-300px overflow-scroll"
+                                                            id="kt_ecommerce_edit_order_selected_products">
+                                                            <!--begin::Empty message-->
+                                                            <span class="w-100 text-muted">Select one or more products
+                                                                from the
+                                                                list below by ticking the checkbox.</span>
+                                                            <!--end::Empty message-->
+                                                        </div>
+                                                        <!--begin::Selected products-->
+                                                        <!--begin::Total price-->
+                                                        <div class="fw-bolder fs-4">Total Cost: Rp.
+                                                            <!-- <span id="kt_ecommerce_edit_order_total_price"></span>0 -->
+                                                            <span id="total">0</span>
+                                                        </div>
+                                                        <!--end::Total price-->
+                                                    </div>
+                                                    <!--end::Input group-->
+                                                    <!--begin::Separator-->
+                                                    <div class="separator"></div>
+                                                    <!--end::Separator-->
+                                                    <!--begin::Search products-->
+                                                    <div class="d-flex align-items-center position-relative mb-n7">
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                                                        <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none">
+                                                                <rect opacity="0.5" x="17.0365" y="15.1223"
+                                                                    width="8.15546" height="2" rx="1"
+                                                                    transform="rotate(45 17.0365 15.1223)"
+                                                                    fill="currentColor" />
+                                                                <path
+                                                                    d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                                    fill="currentColor" />
+                                                            </svg>
+                                                        </span>
+                                                        <!--end::Svg Icon-->
+                                                        <input type="text" data-kt-ecommerce-edit-order-filter="search"
+                                                            class="form-control form-control-solid w-100 w-lg-50 ps-14"
+                                                            placeholder="Search Products" />
+                                                    </div>
+                                                    <!--end::Search products-->
+                                                    <!--begin::Table-->
+                                                    <table class="table align-middle table-row-dashed fs-6 gy-5"
+                                                        id="kt_ecommerce_edit_order_product_table">
+                                                        <!--begin::Table head-->
+                                                        <thead>
+                                                            <tr
+                                                                class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                                                                <th class="w-25px pe-2"></th>
+                                                                <th class="min-w-200px">Product</th>
+                                                                <th class="min-w-100px text-center pe-5">Qty Order</th>
+                                                                <th class="min-w-100px text-end pe-5">Qty Remaining</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <!--end::Table head-->
+                                                        <!--begin::Table body-->
+                                                        <tbody class="fw-bold text-gray-600">
+                                                            <% data.products.forEach(e=> { %>
+                                                                <!--begin::Table row-->
+                                                                <tr>
+                                                                    <!--begin::Checkbox-->
+                                                                    <td>
+                                                                        <div
+                                                                            class="form-check form-check-sm form-check-custom form-check-solid">
+                                                                            <input class="form-check-input"
+                                                                                type="checkbox" value="<%= e.id %>"
+                                                                                name="products" id="check<%= e.id %>" />
+                                                                        </div>
+                                                                    </td>
+                                                                    <!--end::Checkbox-->
+                                                                    <!--begin::Product=-->
+                                                                    <td>
+                                                                        <div class="d-flex align-items-center"
+                                                                            data-kt-ecommerce-edit-order-filter="product"
+                                                                            data-kt-ecommerce-edit-order-id="<%= e.product_name %>">
+                                                                            <!--begin::Thumbnail-->
+                                                                            <a class="symbol symbol-50px">
+                                                                                <span class="symbol-label"
+                                                                                    style="background-image:url(uploads/img/product/<%= e.image %>);"></span>
+                                                                            </a>
+                                                                            <!--end::Thumbnail-->
+                                                                            <div class="ms-5">
+                                                                                <!--begin::Title-->
+                                                                                <a
+                                                                                    class="text-gray-800 text-hover-primary fs-5 fw-bolder">
+                                                                                    <%= e.product_name %>
+                                                                                </a>
+                                                                                <!--end::Title-->
+                                                                                <!--begin::Price-->
+                                                                                <div class="fw-bold fs-7"
+                                                                                    id="orderQty<%= e.id %>">
+                                                                                    Price: Rp.
+                                                                                    <span
+                                                                                        data-kt-ecommerce-edit-order-filter="price"
+                                                                                        class="" id="price<%= e.id %>">
+                                                                                        <%= Intl.NumberFormat('id-ID').format((e.price))
+                                                                                            %>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <!--end::Price-->
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <!--end::Product=-->
+                                                                    <td>
+                                                                        <!--begin::Input-->
+                                                                        <input
+                                                                            class="form-control form-control-sm w-75px mx-auto"
+                                                                            name="qty" placeholder="Total" type="number"
+                                                                            id="qty<%= e.id %>" disabled="disabled"
+                                                                            value="" />
+                                                                        <!--end::Input-->
+                                                                    </td>
+                                                                    <!--begin::Qty=-->
+                                                                    <td class="text-end pe-5" data-order="0">
+                                                                        <!-- <span class="badge badge-light-danger">Sold
+                                                                            out</span> -->
+                                                                        <span class="fw-bolder ms-3">
+                                                                            <%= e.quantity %>
+                                                                        </span>
+                                                                    </td>
+                                                                    <!--end::Qty=-->
+                                                                </tr>
+                                                                <div class="d-none">
+                                                                    <input type="number" name="subTotal"
+                                                                        id="total<%= e.id %>" disabled>
+                                                                </div>
+
+                                                                <!--end::Table row-->
+                                                                <% }) %>
+                                                        </tbody>
+                                                        <!--end::Table body-->
+                                                    </table>
+                                                    <!--end::Table-->
+                                                </div>
+                                            </div>
+                                            <!--end::Card header-->
+                                        </div>
+                                        <!--end::Order details-->
+                                        <!--begin::Order details-->
+                                        <div class="card card-flush py-4">
+                                            <!--begin::Card header-->
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    <h2>Delivery Details</h2>
+                                                </div>
+                                            </div>
+                                            <!--end::Card header-->
+                                            <!--begin::Card body-->
+                                            <div class="card-body pt-0">
+                                                <!--begin::Billing address-->
+                                                <div class="d-flex flex-column gap-5 gap-md-7">
+                                                    <!--begin::Title-->
+                                                    <div class="fs-3 fw-bolder mb-n2">Billing Address</div>
+                                                    <!--end::Title-->
+                                                    <!--begin::Input group-->
+                                                    <div class="d-flex flex-column flex-md-row gap-5">
+                                                        <div class="flex-row-fluid">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label">Full Name</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Input-->
+                                                            <input class="form-control" name="full_name"
+                                                                placeholder="Full Name" />
+                                                            <!--end::Input-->
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Input group-->
+                                                    <!--begin::Input group-->
+                                                    <div class="d-flex flex-column flex-md-row gap-5">
+                                                        <div class="flex-row-fluid">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label">Address</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Input-->
+                                                            <input class="form-control" name="address"
+                                                                placeholder="Address" />
+                                                            <!--end::Input-->
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Input group-->
+                                                    <!--begin::Input group-->
+                                                    <div class="d-flex flex-column flex-md-row gap-5">
+                                                        <div class="flex-row-fluid">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label">Phone</label>
+                                                            <!--end::Label-->
+                                                            <!--begin::Input-->
+                                                            <input class="form-control" name="phone" placeholder="Phone"
+                                                                type="number" />
+                                                            <!--end::Input-->
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Input group-->
+                                                    <!--begin::Checkbox-->
+                                                    <div class="form-check form-check-custom form-check-solid d-none">
+                                                        <input class="form-check-input" type="checkbox" value=""
+                                                            id="same_as_billing" checked="checked" />
+                                                        <label class="form-check-label" for="same_as_billing">Shipping
+                                                            address
+                                                            is the same as billing address</label>
+                                                    </div>
+                                                    <!--end::Checkbox-->
+                                                    <!--begin::Shipping address-->
+                                                    <div class="d-none d-flex flex-column gap-5 gap-md-7"
+                                                        id="kt_ecommerce_edit_order_shipping_form">
+                                                        <!--begin::Title-->
+                                                        <div class="fs-3 fw-bolder mb-n2">Shipping Address</div>
+                                                        <!--end::Title-->
+                                                        <!--begin::Input group-->
+                                                        <div class="d-flex flex-column flex-md-row gap-5">
+                                                            <div class="fv-row flex-row-fluid">
+                                                                <!--begin::Label-->
+                                                                <label class="form-label">Address Line 1</label>
+                                                                <!--end::Label-->
+                                                                <!--begin::Input-->
+                                                                <input class="form-control"
+                                                                    name="kt_ecommerce_edit_order_address_1"
+                                                                    placeholder="Address Line 1" value="" />
+                                                                <!--end::Input-->
+                                                            </div>
+                                                            <div class="flex-row-fluid">
+                                                                <!--begin::Label-->
+                                                                <label class="form-label">Address Line 2</label>
+                                                                <!--end::Label-->
+                                                                <!--begin::Input-->
+                                                                <input class="form-control"
+                                                                    name="kt_ecommerce_edit_order_address_2"
+                                                                    placeholder="Address Line 2" />
+                                                                <!--end::Input-->
+                                                            </div>
+                                                        </div>
+                                                        <!--end::Input group-->
+                                                        <!--begin::Input group-->
+                                                        <div class="d-flex flex-column flex-md-row gap-5">
+                                                            <div class="flex-row-fluid">
+                                                                <!--begin::Label-->
+                                                                <label class="form-label">City</label>
+                                                                <!--end::Label-->
+                                                                <!--begin::Input-->
+                                                                <input class="form-control"
+                                                                    name="kt_ecommerce_edit_order_city" placeholder=""
+                                                                    value="" />
+                                                                <!--end::Input-->
+                                                            </div>
+                                                            <div class="fv-row flex-row-fluid">
+                                                                <!--begin::Label-->
+                                                                <label class="form-label">Postcode</label>
+                                                                <!--end::Label-->
+                                                                <!--begin::Input-->
+                                                                <input class="form-control"
+                                                                    name="kt_ecommerce_edit_order_postcode"
+                                                                    placeholder="" value="" />
+                                                                <!--end::Input-->
+                                                            </div>
+                                                            <div class="fv-row flex-row-fluid">
+                                                                <!--begin::Label-->
+                                                                <label class="form-label">State</label>
+                                                                <!--end::Label-->
+                                                                <!--begin::Input-->
+                                                                <input class="form-control"
+                                                                    name="kt_ecommerce_edit_order_state" placeholder=""
+                                                                    value="" />
+                                                                <!--end::Input-->
+                                                            </div>
+                                                        </div>
+                                                        <!--end::Input group-->
+                                                        <!--begin::Input group-->
+                                                        <div class="fv-row">
+                                                            <!--begin::Label-->
+                                                            <label class="form-label">Country</label>
+                                                            <!--end::Label-->
+                                                        </div>
+                                                        <!--end::Input group-->
+                                                    </div>
+                                                    <!--end::Shipping address-->
+                                                </div>
+                                                <!--end::Billing address-->
+                                            </div>
+                                            <!--end::Card body-->
+                                        </div>
+                                        <!--end::Order details-->
+                                        <div class="d-flex justify-content-end">
+                                            <!--begin::Button-->
+                                            <a href="/products" id="kt_ecommerce_edit_order_cancel"
+                                                class="btn btn-light me-5">Cancel</a>
+                                            <!--end::Button-->
+                                            <!--begin::Button-->
+                                            <button type="submit" class="btn btn-primary">
+                                                <span class="indicator-label">Save Changes</span>
+                                                <span class="indicator-progress">Please wait...
+                                                    <span
+                                                        class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                            </button>
+                                            <!--end::Button-->
+                                        </div>
+                                    </div>
+                                    <!--end::Main column-->
+                                </form>
+                                <!--end::Form-->
+                            </div>
+                            <!--end::Container-->
+                        </div>
+                        <!--end::Post-->
+                    </div>
+                    <!--end::Content-->
+                    <!--begin::Footer-->
+                    <div class="footer py-4 d-flex flex-lg-column" id="kt_footer">
+                        <!--begin::Container-->
+                        <div
+                            class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between">
+                            <!--begin::Copyright-->
+                            <div class="text-dark order-2 order-md-1">
+                                <span class="text-muted fw-bold me-1">2022©</span>
+                                <a href="https://keenthemes.com" target="_blank"
+                                    class="text-gray-800 text-hover-primary">Keenthemes</a>
+                            </div>
+                            <!--end::Copyright-->
+                            <!--begin::Menu-->
+                            <ul class="menu menu-gray-600 menu-hover-primary fw-bold order-1">
+                                <li class="menu-item">
+                                    <a href="https://keenthemes.com" target="_blank" class="menu-link px-2">About</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://devs.keenthemes.com" target="_blank"
+                                        class="menu-link px-2">Support</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://1.envato.market/EA4JP" target="_blank"
+                                        class="menu-link px-2">Purchase</a>
+                                </li>
+                            </ul>
+                            <!--end::Menu-->
+                        </div>
+                        <!--end::Container-->
+                    </div>
+                    <!--end::Footer-->
+            </div>
+            <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+</div>
+<%- contentFor('style') %>
+    <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+    <%- contentFor('script') %>
+        <script type="text/javascript">
+            var old = []
+            var total = 0
+                <% data.products.forEach((e, i = 0) => { %>
+                    old.push('1')
+                    $(function () {
+                        $("#check<%= e.id %>").click(function () {
+                            if ($(this).is(":checked")) {
+                                var val = <%= e.price %>;
+                                total += val
+                                $("#total").html(
+                                    Intl.NumberFormat('id-ID').format(total)
+                                );
+                                $("#total<%= e.id %>").removeAttr("disabled");
+                                $("#total<%= e.id %>").val(val);
+                                $("#inputTotal").val(total);
+                                $("#qty<%= e.id %>").removeAttr("disabled");
+                                $("#qty<%= e.id %>").val(1);
+                            } else {
+                                var newVal = $("#qty<%= e.id %>").val()
+                                if (parseInt(newVal) === 0) {
+                                    var price =  <%= e.price %>;
+                                } else {
+                                    var price = parseInt(newVal) * <%= e.price %>;
+                                }
+                                total -= price
+                                old.splice(<%= i %>, 1, 1)
+                                $("#total").html(
+                                    Intl.NumberFormat('id-ID').format(total)
+                                );
+                                $("#inputTotal").val(total);
+                                $("#qty<%= e.id %>").val('');
+                                $("#qty<%=   e.id %>").attr("disabled", "disabled");
+                                $("#total<%=   e.id %>").attr("disabled", "disabled");
+                            }
+                        });
+                    });
+                    $(function () {
+                        $("#qty<%= e.id %>").change(function () {
+                            var newVal = $("#qty<%= e.id %>").val()
+                            if (parseInt(newVal) === 0) {
+                                $("#check<%= e.id %>").click()
+                                return
+                            }
+                            if (parseInt(newVal) > <%= e.quantity %>) {
+                            $("#qty<%= e.id %>").val(<%= e.quantity %>)
+                            newVal = $("#qty<%= e.id %>").val()
+                        }
+                        var val = newVal * <%= e.price %>;
+                        var asd = Intl.NumberFormat('id-ID').format(val)
+                        var price = (parseInt(newVal) - parseInt(old[<%= i %>])) * <%= e.price %>;
+                        total += price
+                        old.splice(<%= i %>, 1, newVal)
+                        $("#total").html(
+                            Intl.NumberFormat('id-ID').format(total)
+                        );
+                        $("#inputTotal").val(total);
+                        $("#price<%= e.id %>").html(asd);
+                    });
+                });
+                    <% i++ %>
+                        <% }) %>
+        </script>
+        <script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
+        <script src="assets/plugins/custom/formrepeater/formrepeater.bundle.js"></script>
+        <script src="assets/js/custom/apps/ecommerce/sales/save-order.js"></script>
+        <script src="assets/js/widgets.bundle.js"></script>
+        <script src="assets/js/custom/widgets.js"></script>
+        <script src="assets/js/custom/apps/chat/chat.js"></script>
+        <script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
+        <script src="assets/js/custom/utilities/modals/create-app.js"></script>
+        <script src="assets/js/custom/utilities/modals/users-search.js"></script>

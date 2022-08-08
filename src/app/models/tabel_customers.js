@@ -10,3 +10,21 @@ exports.findAll = async () => {
 
     return query
 }
+exports.insertOne = async (
+    customer_name,
+    email
+) => {
+    const query = await pool.query(`
+    INSERT 
+    INTO ${table}(
+       customer_name,
+       email
+        )
+        VALUES (
+            '${customer_name}',
+            '${email}'
+            );
+    `)
+
+    return query
+}

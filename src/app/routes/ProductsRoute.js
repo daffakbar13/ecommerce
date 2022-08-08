@@ -6,7 +6,8 @@ const Products = require('../controller/ProductsController')
 var bodyParser = require('body-parser');
 // Router
 const router = express.Router()
-const multer = require('multer')
+const multer = require('multer');
+const { checkNotAuthenticated, roleAdmin } = require('../controller/AuthController');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './public/uploads/img/product')
@@ -37,7 +38,8 @@ router.use(express.urlencoded({ extended: true }));
 
 // Customer lists
 router.get('/products', Products.Home)
-router.get('/products/add', Products.AddProduct)
+router.post('/products', Products.Home)
+router.get('/products/add', checkNotAuthenticated, roleAdmin, Products.AddProduct)
 router.post('/products/add', upload.array('avatar', 1), Products.Save)
 router.post('/products/edit-form', Products.EditProduct)
 router.post('/products/update', upload.array('avatar', 1), Products.Update)

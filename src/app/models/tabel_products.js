@@ -21,6 +21,17 @@ exports.findOne = async (id) => {
 
     return query
 }
+exports.publish = async () => {
+    const query = await pool.query(`
+    SELECT * 
+    FROM 
+    ${table}
+    WHERE status = 'Published'
+    ORDER BY id
+    `)
+
+    return query
+}
 exports.insertOne = async (
     product_name,
     quantity,
@@ -82,6 +93,43 @@ exports.deleteOne = async (
     DELETE
     FROM ${table}
     WHERE id = '${id}'
+    `)
+
+    return query
+}
+exports.updateStock = async (
+    id,
+    quantity
+) => {
+    const query = await pool.query(`
+    UPDATE 
+    ${table}
+    SET
+        quantity =  ${quantity}
+    WHERE id = '${id}'
+    `)
+
+    return query
+}
+exports.updateStatus = async (
+    id,
+    status
+) => {
+    const query = await pool.query(`
+    UPDATE 
+    ${table}
+    SET
+        status =  '${status}'
+    WHERE id = '${id}'
+    `)
+
+    return query
+}
+exports.stock = async () => {
+    const query = await pool.query(`
+    SELECT SUM(quantity) 
+    FROM 
+    ${table}
     `)
 
     return query
